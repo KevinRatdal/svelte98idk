@@ -5,7 +5,7 @@
 	export let top = 100;
 	
   export let title = ""
-  export const resizable = true
+  export let resizable = true
 
 
 	let moving = false;

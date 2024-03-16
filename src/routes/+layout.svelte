@@ -14,6 +14,7 @@
     height: 100svh;
   }
   :global(body) {
+    overflow: hidden;
     margin: 0;
     padding: 0;
     height: 100%;
