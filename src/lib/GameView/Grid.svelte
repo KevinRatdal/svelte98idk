@@ -52,6 +52,7 @@
     width: 48px;
     display: flex;
     align-items: center;
+    flex: 0 0 auto;
     justify-content: center;
   }
   .block-content {

@@ -6,7 +6,7 @@ import BottomBar from '$lib/components/BottomBar.svelte';
 
 
 <Window title='this is a test' resizable={false}>
-    <button>test</button>
+    <button style:margin='8px'>test</button>
     <Grid></Grid>
 </Window>
 <Window title='this is a test' left={500} top={100}>
