@@ -1,7 +1,7 @@
 <script>
   import { fontSize, numberColor } from '$lib/helpers.js';
 
-  export const grid = [
+  export let grid = [
     [0, 2, 4, 8],
     [0, 0, 0, 0],
     [0, 0, 512, 512],

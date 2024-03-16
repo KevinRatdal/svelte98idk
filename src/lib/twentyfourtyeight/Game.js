@@ -1,10 +1,12 @@
-export class Game {
-  score: number;
-  grid: number[][];
-  gridSize: number;
-  isFinished: Boolean;
 
-  constructor(gridSize: number = 4) {
+
+export class Game {
+  // score: number;
+  // grid: number[][];
+  // gridSize: number;
+  // isFinished: boolean;
+
+  constructor(gridSize = 4) {
     this.score = 0
     this.gridSize = gridSize
     this.isFinished = false
@@ -51,7 +53,7 @@ export class Game {
     return this.isFinished
   }
 
-  _getEmptyPositions(): any[] {
+  _getEmptyPositions() {
     let empties = []
     for (let x = 0; x < this.gridSize; x++) {
       for (let y = 0; y < this.gridSize; y++) {
@@ -99,7 +101,10 @@ export class Game {
     
   }
 
-  move(direction: string) {
+  /**
+   * @param {string} direction
+   */
+  move(direction) {
     console.log('moving', direction, this.isFinished)
     if (this.isFinished) {
       return
@@ -208,7 +213,10 @@ export class Game {
     // create an array from reverse values and try to move numbers "rightwards"
   }
 
-  _handleSectionMove(section: number[]) {
+  /**
+   * @param {number[]} section
+   */
+  _handleSectionMove(section) {
     let changed = false
     let newSection = [...section]
 

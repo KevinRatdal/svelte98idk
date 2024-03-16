@@ -35,6 +35,7 @@
     display: grid;
     grid-template: auto / auto auto 1fr auto auto;
     gap: 2px;
+    z-index: 999;
   }
   .divider {
     box-shadow: inset 1px 0px grey, inset 2px 0px white ;

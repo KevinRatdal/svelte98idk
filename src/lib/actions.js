@@ -51,7 +51,7 @@ export function resize(element, enabled=false) {
     const rect = element.getBoundingClientRect()
     const parent = element.parentElement.getBoundingClientRect()
 
-    console.log({ rect, parent })
+    // console.log({ rect, parent })
 
     initialRect = {
       width: rect.width,

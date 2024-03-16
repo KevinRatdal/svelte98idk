@@ -62,10 +62,9 @@
 <!-- svelte-ignore a11y-no-static-element-interactions -->
 <div
   class="window hide-grabber"
-  
   style:left="{left}px"
-  style:top="{top}px" 
-  style:z-index="{$windowFocusOrder.indexOf(windowUUID)}"
+  style:top="{top}px"
+  style:z-index={$windowFocusOrder.indexOf(windowUUID)}
   on:mousedown={handleWindowFocus}
 >
   <!-- svelte-ignore a11y-no-static-element-interactions -->
@@ -77,10 +76,14 @@
       <button on:click|preventDefault={handleClose} aria-label="Close"></button>
     </div>
   </div>
-    <div class="window-body"use:move={resizable}
-  use:resize={resizable} style:overflow={resizable ? 'scroll' : 'hidden'}>
-      <slot />
-    </div>
+  <div
+    class="window-body"
+    use:move={resizable}
+    use:resize={resizable}
+    style:overflow={resizable ? 'auto' : 'hidden'}
+  >
+    <slot />
+  </div>
 </div>
 
 <svelte:window on:mouseup={onMouseUp} on:mousemove={onMouseMove} />
@@ -90,7 +93,6 @@
     position: absolute;
     display: flex;
     flex-direction: column;
-    
   }
   .window-body {
     margin: 0;
@@ -103,44 +105,44 @@
   }
 
   :global(.grabber) {
-		position: absolute;
-		box-sizing: border-box; 
-	}
-	
-	:global(.grabber.right) {
-		width: 5px;
-		height: calc(100% - 10px);
-		background: red;
-		right: -2px;
-        bottom: 10px;
-		cursor: col-resize;
-	}
-	
-	:global(.grabber.bottom) {
-		height: 5px;
-		width: calc(100% - 10px);
-		background: orange;
-        right: 10px;
-		bottom: -3px;
-		cursor: row-resize;
-	}
-	
-	:global(.grabber.bottom-right) {
-		height: 20px;
-		width: 20px;
-		background: green;
-		bottom: -10px;
-		right: -10px;
-		cursor: se-resize;
-		border-radius: 100%;
-	}
-	
-	:global(.hide-grabber .grabber) {
-		background: transparent !important;
-		border: none !important;
-	}
-	
-	:global(.grabber.selected) {
-		border: solid 1px black;
-	}
+    position: absolute;
+    box-sizing: border-box;
+  }
+
+  :global(.grabber.right) {
+    width: 5px;
+    height: calc(100% - 10px);
+    background: red;
+    right: -2px;
+    bottom: 10px;
+    cursor: col-resize;
+  }
+
+  :global(.grabber.bottom) {
+    height: 5px;
+    width: calc(100% - 10px);
+    background: orange;
+    right: 10px;
+    bottom: -3px;
+    cursor: row-resize;
+  }
+
+  :global(.grabber.bottom-right) {
+    height: 20px;
+    width: 20px;
+    background: green;
+    bottom: -10px;
+    right: -10px;
+    cursor: se-resize;
+    border-radius: 100%;
+  }
+
+  :global(.hide-grabber .grabber) {
+    background: transparent !important;
+    border: none !important;
+  }
+
+  :global(.grabber.selected) {
+    border: solid 1px black;
+  }
 </style>

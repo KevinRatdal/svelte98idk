@@ -12,6 +12,7 @@
     margin: 0;
     padding: 0;
     height: 100svh;
+    user-select: none;
   }
   :global(body) {
     overflow: hidden;
