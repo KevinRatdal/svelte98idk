@@ -32,28 +32,16 @@
     gScore = gameScore;
   });
 
-  // useEffect(() => { // handle inputs and toggle focus for input
-  //     if (containerRef !== null) {
-  //         containerRef.addEventListener('keydown', (event) => {
-  //             console.log(event)
-  //             if (event.code === 'ArrowUp') {
-  //                 handleMove('up')
-  //             }
-  //             if (event.code === 'ArrowDown') {
-  //                 handleMove('down')
-  //             }
-  //             if (event.code === 'ArrowLeft') {
-  //                 handleMove('left')
-  //             }
-  //             if (event.code === 'ArrowRight') {
-  //                 handleMove('right')
-  //             }
-  //         })
-  //         containerRef.addEventListener('click', () => {
-  //             containerRef?.focus()
-  //         })
-  //     }
-  // }, [])
+  const handleKeyDown = (/** @type {{ repeat: any; code: string; }} */ e) => { // handle inputs and toggle focus for input
+    if (e.repeat) return;    
+    console.log(e)
+    if (e.code === 'ArrowUp') handleMove('up');
+    if (e.code === 'ArrowDown') handleMove('down');
+    if (e.code === 'ArrowLeft') handleMove('left');
+    if (e.code === 'ArrowRight') handleMove('right');
+  }
+  
+
 
   // useEffect(() => { // send game state to be updated on server
   //     if (typeof sendGameState === 'function' && roomId !== '') {
@@ -137,7 +125,7 @@
     on:click={() => handleJoinRoom('test1', `player_${Math.floor(Math.random() * 99)}`)}
     >join room test1</button
   > -->
-  <button>Focus</button>
+  <button on:keydown|preventDefault={handleKeyDown}>Focus</button>
   {#if debug}
     <div class="debug-menu">
       <button on:click={handleView}>View</button>
