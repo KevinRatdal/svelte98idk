@@ -1,12 +1,22 @@
 
 <script>
-
+  import {programs} from '$lib/stores'
 </script>
 
 <div class="bottomBar">
   <button class="startButton">start</button>
   <div class="divider"/>
-  <div class='stuffs'>stuff goes here</div>
+  <div class='stuffs'>
+    {#each $programs as program}
+      <button
+        class='appButton'
+        class:appButtonSelected={program.minimized} 
+        on:click={() => program.minimized = !program.minimized}
+    >
+      {program.title}
+    </button>
+    {/each}
+  </div>
   <div class="divider"/>
   <div class="statusDivider">
     <p style="font-size: 9px; padding-inline: 8px;">23:32</p>
@@ -42,6 +52,20 @@
     height: 100%;
     width: 2px;
   }
+
+  .stuffs {
+    display: flex;
+    gap: 4px;
+  }
+
+  .appButton:focus {
+    outline: unset;
+  }
+  .appButtonSelected {
+    box-shadow: inset -1px -1px #fff, inset 1px 1px #0a0a0a, inset -2px -2px #dfdfdf, inset 2px 2px grey;
+    text-shadow: 1px 1px #222;
+  }
+
   .statusDivider {
     box-shadow: inset -1px -1px white, inset 1px 1px grey;
     padding: 2px;

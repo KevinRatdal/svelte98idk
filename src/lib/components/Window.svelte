@@ -1,5 +1,5 @@
 <script>
-  import { windowFocusOrder } from '$lib/stores.js';
+  import { windowFocusOrder, programs } from '$lib/stores.js';
   import { onDestroy } from 'svelte';
   import { move, resize } from '$lib/actions.js';
 
@@ -10,6 +10,16 @@
   export let resizable = true;
 
   const windowUUID = crypto.randomUUID();
+
+  programs.update((prevPrograms) => {
+    const progData = {
+      title: title,
+      name: '<placeholder_name>',
+      windowUUID: windowUUID,
+      minimized: false
+    }
+    return [...prevPrograms, progData]
+  })
 
   windowFocusOrder.update((wfo) => {
     return [...wfo.filter((w) => !(w === windowUUID)), windowUUID];
@@ -48,7 +58,14 @@
     moving = false;
   }
 
-  function handleMinimize() {}
+  $:program = $programs.find(p => p.windowUUID === windowUUID)
+
+  function handleMinimize() {
+    if (!program) return;
+    program.minimized = !program.minimized
+    $programs = $programs
+  }
+
   function handleMaximize() {}
   function handleClose() {}
 
@@ -56,6 +73,9 @@
     windowFocusOrder.update((wfo) => {
       return wfo.filter((w) => !(w === windowUUID));
     });
+    programs.update(progs => {
+      return progs.filter(prog => !(prog.windowUUID === windowUUID))
+    })
   });
 </script>
 
@@ -65,11 +85,12 @@
   style:left="{left}px"
   style:top="{top}px"
   style:z-index={$windowFocusOrder.indexOf(windowUUID)}
+  style:visibility={program?.minimized ? 'hidden' : 'visible'}
   on:mousedown={handleWindowFocus}
 >
   <!-- svelte-ignore a11y-no-static-element-interactions -->
   <div class="title-bar" on:mousedown={onMouseDown}>
-    <div class="title-bar-text">{title}</div>
+    <div class="title-bar-text">{title} {String(program?.minimized)}</div>
     <div class="title-bar-controls">
       <button on:click|preventDefault={handleMinimize} aria-label="Minimize"></button>
       <button on:click|preventDefault={handleMaximize} aria-label="Maximize"></button>
