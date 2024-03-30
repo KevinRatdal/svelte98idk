@@ -1,4 +1,4 @@
-import { writable } from "svelte/store";
+import { derived, writable } from "svelte/store";
 
 
 /**
@@ -21,3 +21,10 @@ export const windowFocusOrder = writable([])
   * @type {import('svelte/store').Writable<Program[]>}
   */
 export const programs = writable([])
+
+export const visibleFocusOrder = derived(
+  [windowFocusOrder, programs],
+  ([$windowFocusOrder, $programs]) => {
+    return $windowFocusOrder.filter((val) => !$programs.find(e => e.windowUUID === val )?.minimized)
+  }
+)

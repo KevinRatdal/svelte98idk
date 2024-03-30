@@ -1,6 +1,6 @@
 
 <script>
-  import {programs} from '$lib/stores'
+  import {programs, windowFocusOrder} from '$lib/stores'
 </script>
 
 <div class="bottomBar">
@@ -10,7 +10,8 @@
     {#each $programs as program}
       <button
         class='appButton'
-        class:appButtonSelected={program.minimized} 
+        class:appButtonMinimized={program.minimized}
+        class:appButtonSelected={$windowFocusOrder.at(-1) === program.windowUUID}
         on:click={() => program.minimized = !program.minimized}
     >
       {program.title}

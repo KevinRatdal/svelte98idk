@@ -1,5 +1,5 @@
 <script>
-  import { windowFocusOrder, programs } from '$lib/stores.js';
+  import { windowFocusOrder, programs, visibleFocusOrder } from '$lib/stores.js';
   import { onDestroy } from 'svelte';
   import { move, resize } from '$lib/actions.js';
 
@@ -84,12 +84,12 @@
   class="window hide-grabber"
   style:left="{left}px"
   style:top="{top}px"
-  style:z-index={$windowFocusOrder.indexOf(windowUUID)}
+  style:z-index={$visibleFocusOrder.indexOf(windowUUID)}
   style:visibility={program?.minimized ? 'hidden' : 'visible'}
   on:mousedown={handleWindowFocus}
 >
   <!-- svelte-ignore a11y-no-static-element-interactions -->
-  <div class="title-bar" on:mousedown={onMouseDown}>
+  <div class="title-bar" class:inactive={$visibleFocusOrder.at(-1) !== windowUUID} on:mousedown={onMouseDown}>
     <div class="title-bar-text">{title} {String(program?.minimized)}</div>
     <div class="title-bar-controls">
       <button on:click|preventDefault={handleMinimize} aria-label="Minimize"></button>
