@@ -1,5 +1,13 @@
+<script>
+
+    import HomeIcon from "$lib/components/HomeIcon.svelte";
+    import BottomBar from "$lib/components/BottomBar.svelte"
+</script>
 <div class="mainWrapper">
+  <HomeIcon />
   <slot />
+<BottomBar />
+
 </div>
 
 <style>

@@ -84,7 +84,7 @@
   class="window hide-grabber"
   style:left="{left}px"
   style:top="{top}px"
-  style:z-index={$visibleFocusOrder.indexOf(windowUUID)}
+  style:z-index={$visibleFocusOrder.indexOf(windowUUID)+100}
   style:visibility={program?.minimized ? 'hidden' : 'visible'}
   on:mousedown={handleWindowFocus}
 >

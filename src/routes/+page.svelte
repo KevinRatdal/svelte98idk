@@ -15,4 +15,3 @@
 <Window title="this is a test" left={500} top={100}>
   <button>test</button>
 </Window>
-<BottomBar />
