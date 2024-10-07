@@ -22,6 +22,12 @@ export const windowFocusOrder = writable([])
   */
 export const programs = writable([])
 
+/** 
+  * Writable store for handling a Programs.
+  * @type {import('svelte/store').Writable<?string>}
+  */
+export const lastFocused = writable(null)
+
 export const visibleFocusOrder = derived(
   [windowFocusOrder, programs],
   ([$windowFocusOrder, $programs]) => {

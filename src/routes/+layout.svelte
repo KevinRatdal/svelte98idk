@@ -1,13 +1,22 @@
 <script>
+  import { lastFocused } from '$lib/stores';
+  import HomeIcon from '$lib/components/HomeIcon.svelte';
+  import BottomBar from '$lib/components/BottomBar.svelte';
 
-    import HomeIcon from "$lib/components/HomeIcon.svelte";
-    import BottomBar from "$lib/components/BottomBar.svelte"
+  // @ts-ignore
+  const handleOutsideClick = (e) => {
+    if (e.target.classList.contains('mainWrapper')) {
+      lastFocused.set(null);
+    }
+  };
 </script>
-<div class="mainWrapper">
+
+<!-- svelte-ignore a11y_click_events_have_key_events -->
+<!-- svelte-ignore a11y_no_static_element_interactions -->
+<div class="mainWrapper" on:mousedown={handleOutsideClick}>
   <HomeIcon />
   <slot />
-<BottomBar />
-
+  <BottomBar />
 </div>
 
 <style>

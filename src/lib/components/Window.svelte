@@ -1,5 +1,5 @@
 <script>
-  import { windowFocusOrder, programs, visibleFocusOrder } from '$lib/stores.js';
+  import { windowFocusOrder, programs, visibleFocusOrder, lastFocused } from '$lib/stores.js';
   import { onDestroy } from 'svelte';
   import { move, resize } from '$lib/actions.js';
 
@@ -38,6 +38,7 @@
   }
 
   function handleWindowFocus() {
+    lastFocused.set(windowUUID)
     windowFocusOrder.update((wfo) => {
       if (wfo.at(-1) === windowUUID) return wfo;
       return [...wfo.filter((w) => !(w === windowUUID)), windowUUID];
@@ -61,6 +62,7 @@
   $:program = $programs.find(p => p.windowUUID === windowUUID)
 
   function handleMinimize() {
+    lastFocused.set(null)
     if (!program) return;
     program.minimized = !program.minimized
     $programs = $programs
@@ -89,7 +91,7 @@
   on:mousedown={handleWindowFocus}
 >
   <!-- svelte-ignore a11y-no-static-element-interactions -->
-  <div class="title-bar" class:inactive={$visibleFocusOrder.at(-1) !== windowUUID} on:mousedown={onMouseDown}>
+  <div class="title-bar" class:inactive={$lastFocused !== windowUUID} on:mousedown={onMouseDown}>
     <div class="title-bar-text">{title} {String(program?.minimized)}</div>
     <div class="title-bar-controls">
       <button on:click|preventDefault={handleMinimize} aria-label="Minimize"></button>
