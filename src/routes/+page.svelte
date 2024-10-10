@@ -3,6 +3,7 @@
   // import BottomBar from '$lib/components/BottomBar.svelte';
   import Window from '$lib/components/Window.svelte';
   import GameView from '$lib/twentyfourtyeight/GameView.svelte';
+    import Minesweeper from '$lib/minesweeper/Minesweeper.svelte';
 </script>
 
 <Window title="Grid preview test" resizable={false}>
@@ -14,4 +15,7 @@
 </Window>
 <Window title="Test button" left={500} top={100}>
   <button>test</button>
+</Window>
+<Window title="Test button" left={500} top={200}>
+  <Minesweeper />
 </Window>
