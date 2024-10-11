@@ -174,16 +174,20 @@ export class Minesweeper {
   }
 
   revealEmptyNeighbors(x: number, y: number) {
-    if (this.grid[y][x].number !== 0 && this.grid[y][x].revealed) return;
+    if (this.grid[y][x].mine && this.grid[y][x].revealed) return;
     this.grid[y][x].revealed = true
+    if (this.grid[y][x].number !== 0) return;
+    // if the number is zero, we want to check the neighboring cells,
+    // if the cell has a mine or is already revealed, we skip
+    // if the number is non-zero we reveal and skip the neighbor check
      // top
-    if ((y > 0) && (this.grid[y - 1][x].number === 0) && (!this.grid[y - 1][x].revealed)) this.revealEmptyNeighbors(x, y-1);
+    if ((y > 0) && (!this.grid[y - 1][x].revealed)) this.revealEmptyNeighbors(x, y-1);
     // bottom
-    if ((y < this.height - 1) && (this.grid[y + 1][x].number === 0) && (!this.grid[y + 1][x].revealed)) this.revealEmptyNeighbors(x, y+1);
+    if ((y < this.height - 1) && (!this.grid[y + 1][x].revealed)) this.revealEmptyNeighbors(x, y+1);
     // left
-    if ((x > 0) && (this.grid[y][x - 1].number === 0) && (!this.grid[y][x - 1].revealed)) this.revealEmptyNeighbors(x-1, y);
+    if ((x > 0) && (!this.grid[y][x - 1].revealed)) this.revealEmptyNeighbors(x-1, y);
     // right
-    if ((x < this.width - 1) && (this.grid[y][x + 1].number === 0) && (!this.grid[y][x + 1].revealed)) this.revealEmptyNeighbors(x + 1, y);
+    if ((x < this.width - 1) && (!this.grid[y][x + 1].revealed)) this.revealEmptyNeighbors(x + 1, y);
   }
 
   checkWin() {

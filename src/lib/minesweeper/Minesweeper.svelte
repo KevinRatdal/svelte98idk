@@ -30,10 +30,12 @@
               </div>
             {:else if cell.revealed}
               <div class="cell">
-                <p class="cell-content">{cell.number}</p>
+                <p class="cell-content">{cell.number === 0 ? '' : cell.number}</p>
               </div>
             {:else if cell.flagged}
-              <div class="cell chidden">
+              <div class="cell chidden"
+              oncontextmenu={(e) => {e.preventDefault();minesweeper?.toggleFlag(x, y)}}
+              >
                 <p class="cell-content flagged">
                   <!-- {cell.number} -->f
                 </p>
