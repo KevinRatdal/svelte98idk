@@ -1,6 +1,7 @@
 <script lang="ts">
   import Cell from './Cell.svelte';
-import { Minesweeper, type GameState } from './Minesweeper';
+  import { Minesweeper, type GameState } from './Minesweeper';
+  import { Confetti } from "svelte-confetti"
   import { onMount } from 'svelte';
 
   let minesweeper = $state<Minesweeper | null>(null);
@@ -12,7 +13,7 @@ import { Minesweeper, type GameState } from './Minesweeper';
   };
 
   onMount(() => {
-    minesweeper = new Minesweeper({ stateChange: onStateChange, mines: 10, height: 10, width: 8 });
+    minesweeper = new Minesweeper({ stateChange: onStateChange, mines: 1, height: 10, width: 8 });
   });
 </script>
 
@@ -29,6 +30,9 @@ import { Minesweeper, type GameState } from './Minesweeper';
     >
       {#if gState?.isWin}
         <p>😀</p>
+        <div style="position: fixed; top: -50px; left: 0; height: 100vh; width: 100vw; display: flex; justify-content: center; overflow: hidden; pointer-events: none;">
+					<Confetti x={[-5, 5]} y={[0, 0.1]} delay={[100, 200]} infinite fallDistance="100vh" />
+				</div>
       {:else if gState?.gameOver}
         <p>😞</p>
       {:else}
