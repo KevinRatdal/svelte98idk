@@ -13,7 +13,7 @@
   };
 
   onMount(() => {
-    minesweeper = new Minesweeper({ stateChange: onStateChange, mines: 1, height: 10, width: 8 });
+    minesweeper = new Minesweeper({ stateChange: onStateChange, mines: 10, height: 10, width: 8 });
   });
 </script>
 
