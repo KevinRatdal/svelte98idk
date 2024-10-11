@@ -19,7 +19,8 @@ export type MSBox = {
 export type GameState = {
   grid: MSBox[][],
   gameOver: boolean,
-  isWin: boolean
+  isWin: boolean,
+  mines: number
 }
 
 export class Minesweeper {
@@ -33,7 +34,7 @@ export class Minesweeper {
 
   constructor(options?: MinesweeperOptions) {
     this.height = options?.height ?? 8
-    this.width = options?.height ?? 10
+    this.width = options?.width ?? 10
     this.mines = options?.mines ?? 10
     this.stateChange = options?.stateChange ?? null
     this.grid = this.initGrid()
@@ -47,7 +48,7 @@ export class Minesweeper {
 
   updateGameState() {
     if (typeof this.stateChange === 'function') {
-      this.stateChange({grid: this.grid, gameOver: this.gameOver, isWin: this.isWin})
+      this.stateChange({grid: this.grid, gameOver: this.gameOver, isWin: this.isWin, mines: this.mines})
     }
   }
 

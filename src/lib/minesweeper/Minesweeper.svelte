@@ -12,7 +12,7 @@ import { Minesweeper, type GameState } from './Minesweeper';
   };
 
   onMount(() => {
-    minesweeper = new Minesweeper({ stateChange: onStateChange, mines: 10 });
+    minesweeper = new Minesweeper({ stateChange: onStateChange, mines: 10, height: 10, width: 8 });
   });
 </script>
 
@@ -20,8 +20,13 @@ import { Minesweeper, type GameState } from './Minesweeper';
   <div class="minesweeper-statusbar">
     <div class="minesweeper-status">
       <p>Flags: {gState?.grid.flat().filter((cell) => cell.flagged).length}</p>
+      <p>Mines: {gState?.mines}</p>
     </div>
-    <div class="minesweeper-smiley">
+    <!-- svelte-ignore a11y_click_events_have_key_events -->
+    <!-- svelte-ignore a11y_no_static_element_interactions -->
+    <div class="minesweeper-smiley"
+      onclick={() => {(gState?.isWin || gState?.gameOver) && minesweeper?.reset()}}
+    >
       {#if gState?.isWin}
         <p>😀</p>
       {:else if gState?.gameOver}
