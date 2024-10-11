@@ -1,64 +1,57 @@
 <script lang="ts">
-  import { Minesweeper, type GameState } from './Minesweeper';
+  import Cell from './Cell.svelte';
+import { Minesweeper, type GameState } from './Minesweeper';
   import { onMount } from 'svelte';
 
-  let minesweeper = $state<Minesweeper|null>(null);
-  
-  let gState = $state<GameState|null>(null)
+  let minesweeper = $state<Minesweeper | null>(null);
+
+  let gState = $state<GameState | null>(null);
 
   const onStateChange = (gsObj: GameState) => {
-    gState = gsObj
-  }
+    gState = gsObj;
+  };
 
   onMount(() => {
-    minesweeper = new Minesweeper({stateChange: onStateChange});
-   
+    minesweeper = new Minesweeper({ stateChange: onStateChange, mines: 10 });
   });
-
-
 </script>
 
 <div class="minesweeper">
-  {#if minesweeper !== null && gState }
+  <div class="minesweeper-statusbar">
+    <div class="minesweeper-status">
+      <p>Flags: {gState?.grid.flat().filter((cell) => cell.flagged).length}</p>
+    </div>
+    <div class="minesweeper-smiley">
+      {#if gState?.isWin}
+        <p>😀</p>
+      {:else if gState?.gameOver}
+        <p>😞</p>
+      {:else}
+        <p>😐</p>
+      {/if}
+      
+    </div>
+    <div class="minesweeper-status">
+    <p>Revealed: {gState?.grid.flat().filter((cell) => cell.revealed).length}</p>
+  </div>
+  </div>
+  {#if minesweeper !== null && gState}
     <div class="minesweeper-grid">
       {#each gState.grid as row, y}
         <div class="row">
           {#each row as cell, x}
-            {#if cell.mine && cell.revealed}
-              <div class="cell">
-                <p class="cell-content">X</p>
-              </div>
-            {:else if cell.revealed}
-              <div class="cell">
-                <p class="cell-content">{cell.number === 0 ? '' : cell.number}</p>
-              </div>
-            {:else if cell.flagged}
-              <div class="cell chidden"
-              oncontextmenu={(e) => {e.preventDefault();minesweeper?.toggleFlag(x, y)}}
-              >
-                <p class="cell-content flagged">
-                  <!-- {cell.number} -->f
-                </p>
-              </div>
-            {:else}
-              <!-- svelte-ignore a11y_click_events_have_key_events -->
-              <!-- svelte-ignore a11y_no_static_element_interactions -->
-              <div 
-                class="cell chidden" 
-                onclick={(e) => {e.preventDefault();minesweeper?.revealCell(x, y)}}
-                oncontextmenu={(e) => {e.preventDefault();minesweeper?.toggleFlag(x, y)}}
-              >
-                <p class="cell-content">
-                  <!-- {cell.number} -->
-                </p>
-              </div>
-            {/if}
+           <Cell 
+            x={x}
+            y={y}
+            cell={cell}
+            minesweeper={minesweeper}
+           />
           {/each}
         </div>
       {/each}
     </div>
   {/if}
-  <!-- <button on:click={() => minesweeper.previewBoard()}>preview</button> -->
+  
 </div>
 
 <style>
@@ -83,32 +76,25 @@
     display: flex;
     gap: 8px;
   }
-  .cell {
-    box-shadow:
-      inset -1px -1px #fff,
-      inset 1px 1px #0a0a0a,
-      inset -2px -2px #dfdfdf,
-      inset 2px 2px grey;
-    height: 24px;
-    width: 24px;
+  .minesweeper-statusbar {
     display: flex;
-    align-items: center;
-    flex: 0 0 auto;
-    justify-content: center;
+    gap: 8px;
+    justify-content: space-between;
   }
-  .cell.chidden {
-    box-shadow:
-      inset 1px 1px #fff,
-      inset 2px 2px #dfdfdf,
-      inset -1px -1px #0a0a0a,
-      inset -2px -2px grey;
+
+  .minesweeper-smiley {
+    > p {
+      font-size: 1.25em;
+      color: unset;
+      box-shadow:
+        inset 1px 1px #fff,
+        inset 2px 2px #dfdfdf,
+        inset -1px -1px #0a0a0a,
+        inset -2px -2px grey;
+      padding: 4px;
+    }
+    display: flex;
+    gap: 8px;
   }
-  .cell-content {
-    color: var(--number-color, 'grey');
-    font-size: var(--number-font-size, 1em);
-    margin: 0;
-  }
-  .flagged {
-    color: red;
-  }
+  
 </style>

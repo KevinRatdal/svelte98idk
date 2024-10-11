@@ -7,7 +7,7 @@ type MinesweeperOptions = {
 
 type GameStateChange = (state: GameState) => void
 
-type MSBox = {
+export type MSBox = {
   flagged: boolean,
   revealed: boolean,
   mine: boolean,
@@ -140,8 +140,14 @@ export class Minesweeper {
   }
 
   revealCell(x: number, y: number) {
-    if (this.grid[y][x].mine) { // Cell is a bomb - end and reveal all
+    if (this.grid[y][x].mine && !this.grid[y][x].flagged) { // Cell is a bomb - end and reveal all
       this.grid[y][x].revealed = true
+      for (let yi = 0; yi < this.height; yi++) {
+        for (let xi = 0; xi < this.width; xi++) {
+          this.grid[yi][xi].revealed = true
+          this.grid[yi][xi].flagged = false
+        }
+      }
       this.gameOver = true
       this.updateGameState()
       return
@@ -174,7 +180,7 @@ export class Minesweeper {
   }
 
   revealEmptyNeighbors(x: number, y: number) {
-    if (this.grid[y][x].mine && this.grid[y][x].revealed) return;
+    if (this.grid[y][x].mine || this.grid[y][x].revealed || this.grid[y][x].flagged) return;
     this.grid[y][x].revealed = true
     if (this.grid[y][x].number !== 0) return;
     // if the number is zero, we want to check the neighboring cells,
@@ -205,11 +211,12 @@ export class Minesweeper {
           win = false
         }
         if (!win) {
-          return false
+          this.isWin = false
+          return
         }
       }
     }
-    return win
+    this.isWin = win
   }
 
 }
