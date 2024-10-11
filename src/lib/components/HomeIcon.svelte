@@ -2,7 +2,7 @@
 
 </script>
 
-<a href='/' >
+<a href='/home/' >
     <img alt="rs" src='./rslPixelated.png' draggable="false"/>
     <p>Home</p>
 </a>
