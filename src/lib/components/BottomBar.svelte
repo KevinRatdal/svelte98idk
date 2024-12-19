@@ -57,7 +57,7 @@
       inset 0px 2px white;
     padding: 2px;
     padding-top: 4px;
-    position: fixed;
+    position: absolute;
     bottom: 0;
     left: 0;
     right: 0;

@@ -21,7 +21,7 @@
 
 <style>
   .mainWrapper {
-    height: 100%;
+    height: 100svh;
     outline: red solid 1px;
     background: linear-gradient(lightBlue, orange);
   }

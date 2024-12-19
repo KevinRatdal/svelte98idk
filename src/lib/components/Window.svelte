@@ -26,6 +26,8 @@
   });
 
   let moving = false;
+  let prevX = 0;
+  let prevY = 0;
 
   /**
    * @param {MouseEvent} e
@@ -35,6 +37,19 @@
     if (e?.target?.type === 'submit') return;
 
     moving = true;
+    prevX = e.screenX
+    prevY = e.screenY
+  }
+   /**
+   * @param {TouchEvent} e
+   */
+  function onTouchDown(e) {
+    // @ts-ignore
+    if (e?.target?.type === 'submit') return;
+
+    moving = true;
+    prevX = e.touches[0].screenX
+    prevY = e.touches[0].screenY
   }
 
   function handleWindowFocus() {
@@ -50,8 +65,25 @@
    */
   function onMouseMove(e) {
     if (moving) {
-      left += e.movementX;
-      top += e.movementY;
+      // left += e.movementX;
+      // top += e.movementY;
+      left += e.screenX - prevX
+      top += e.screenY - prevY
+      prevX = e.screenX
+      prevY = e.screenY
+    }
+  }
+
+  /**
+   * @param {TouchEvent} e
+   */
+  function onTouchMove(e) {
+    if (moving) {
+      const t = e.touches[0]
+      left += t.screenX - prevX;
+      top += t.screenY - prevY;
+      prevX = t.screenX;
+      prevY = t.screenY;
     }
   }
 
@@ -89,9 +121,10 @@
   style:z-index={$visibleFocusOrder.indexOf(windowUUID)+100}
   style:visibility={program?.minimized ? 'hidden' : 'visible'}
   on:mousedown={handleWindowFocus}
+  on:touchstart={handleWindowFocus}
 >
   <!-- svelte-ignore a11y-no-static-element-interactions -->
-  <div class="title-bar" class:inactive={$lastFocused !== windowUUID} on:mousedown={onMouseDown}>
+  <div class="title-bar" class:inactive={$lastFocused !== windowUUID} on:mousedown={onMouseDown} on:touchstart={onTouchDown}>
     <div class="title-bar-text">{title} {String(program?.minimized)}</div>
     <div class="title-bar-controls">
       <button on:click|preventDefault={handleMinimize} aria-label="Minimize"></button>
@@ -109,7 +142,7 @@
   </div>
 </div>
 
-<svelte:window on:mouseup={onMouseUp} on:mousemove={onMouseMove} />
+<svelte:window on:mouseup={onMouseUp} on:touchend={onMouseUp} on:touchmove={onTouchMove} on:mousemove={onMouseMove} />
 
 <style>
   .window {

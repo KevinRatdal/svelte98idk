@@ -13,9 +13,9 @@
 <Window title="Game view :O" resizable={false}>
   <GameView />
 </Window>
-<Window title="Test button" left={500} top={100}>
+<Window title="Test button" left={50} top={10}>
   <button>test</button>
 </Window>
-<Window title="Test button" left={500} top={200}>
+<Window title="Test button" left={50} top={20}>
   <Minesweeper />
 </Window>

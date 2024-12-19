@@ -1,13 +1,19 @@
 <script lang="ts">
-  import { Minesweeper, type MSBox } from './Minesweeper';
+  import { Minesweeper, type MSBox } from './ReactiveMS.svelte';
 
-  export let minesweeper: Minesweeper | null = null;
+  type $$Props = {
+    minesweeper: Minesweeper | null
+    cell: MSBox
+    x: number
+    y: number
+  } 
 
-  export let cell: MSBox;
-
-  export let x: number;
-
-  export let y: number;
+  const { 
+    minesweeper, 
+    cell, 
+    x, 
+    y}:$$Props = $props()
+ 
 
   const handleClick = (e: MouseEvent) => {
     e.preventDefault();
